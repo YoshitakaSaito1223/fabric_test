@@ -85,25 +85,25 @@ services:
       - 7051:7051
 
   # Orderer-org1 Container
-  orderer1-org0:
-    container_name: orderer1-org0
+  orderer1-org1:
+    container_name: orderer1-org1
     image: hyperledger/fabric-orderer:latest
     environment:
       - ORDERER_HOME=/tmp/hyperledger/orderer
-      - ORDERER_HOST=orderer1-org0
+      - ORDERER_HOST=orderer1-org1
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_GENESISMETHOD=file
-      - ORDERER_GENERAL_GENESISFILE=/tmp/hyperledger/org0/orderer/genesis.block
-      - ORDERER_GENERAL_LOCALMSPID=org0MSP
-      - ORDERER_GENERAL_LOCALMSPDIR=/tmp/hyperledger/org0/orderer/msp
+      - ORDERER_GENERAL_GENESISFILE=/tmp/hyperledger/org1/orderer/genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=org1MSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/tmp/hyperledger/org1/orderer/msp
       - ORDERER_GENERAL_TLS_ENABLED=true
-      - ORDERER_GENERAL_TLS_CERTIFICATE=/tmp/hyperledger/org0/orderer/tls-msp/signcerts/cert.pem
-      - ORDERER_GENERAL_TLS_PRIVATEKEY=/tmp/hyperledger/org0/orderer/tls-msp/keystore/key.pem
-      - ORDERER_GENERAL_TLS_ROOTCAS=[/tmp/hyperledger/org0/orderer/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/tmp/hyperledger/org1/orderer/tls-msp/signcerts/cert.pem
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/tmp/hyperledger/org1/orderer/tls-msp/keystore/key.pem
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/tmp/hyperledger/org1/orderer/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
       - ORDERER_GENERAL_LOGLEVEL=debug
       - ORDERER_DEBUG_BROADCASTTRACEDIR=data/logs
     volumes:
-      - /tmp/hyperledger/org0/orderer:/tmp/hyperledger/org0/orderer/
+      - /tmp/hyperledger/org1/orderer:/tmp/hyperledger/org1/orderer/
     networks:
       - fabric-ca
 

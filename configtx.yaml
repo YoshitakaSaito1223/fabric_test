@@ -7,22 +7,6 @@
 #
 ################################################################################
 Organizations:
-  - &org0
-    Name: org0
-    ID: org0MSP
-    MSPDir: /tmp/hyperledger/org0/admin/msp
-
-    Policies:
-      Readers:
-        Type: Signature
-        Rule: "OR('org0MSP.member', 'org1MSP.member')"
-      Writers:
-        Type: Signature
-        Rule: "OR('org0MSP.member', 'org1MSP.member')"
-      Admins:
-        Type: Signature
-        Rule: "AND('org0MSP.admin', 'org1MSP.admin')"
-
   - &org1
     Name: org1
     ID: org1MSP
@@ -31,13 +15,13 @@ Organizations:
     Policies:
       Readers:
         Type: Signature
-        Rule: "OR('org0MSP.member', 'org1MSP.member')"
+        Rule: "OR('org1MSP.member', 'org1MSP.member')"
       Writers:
         Type: Signature
-        Rule: "OR('org0MSP.member', 'org1MSP.member')"
+        Rule: "OR('org1MSP.member', 'org1MSP.member')"
       Admins:
         Type: Signature
-        Rule: "AND('org0MSP.admin', 'org1MSP.admin')"
+        Rule: "AND('org1MSP.admin', 'org1MSP.admin')"
 
     AnchorPeers:
       - Host: peer1-org1
@@ -85,19 +69,19 @@ Application: &ApplicationDefaults
   Policies: &ApplicationDefaultPolicies
     LifecycleEndorsement:
       Type: Signature
-      Rule: "OR('org0MSP.member', 'org1MSP.member')"
+      Rule: "OR('org1MSP.member')"
     Endorsement:
       Type: Signature
-      Rule: "OR('org0MSP.member', 'org1MSP.member')"
+      Rule: "OR('org1MSP.member')"
     Readers:
       Type: Signature
-      Rule: "OR('org0MSP.member', 'org1MSP.member')"
+      Rule: "OR('org1MSP.member')"
     Writers:
       Type: Signature
-      Rule: "OR('org0MSP.member', 'org1MSP.member')"
+      Rule: "OR('org1MSP.member')"
     Admins:
       Type: Signature
-      Rule: "OR('org0MSP.member', 'org1MSP.member')"
+      Rule: "OR('org1MSP.member')"
 
 ################################################################################
 #
@@ -109,7 +93,7 @@ Profiles:
     Orderer:
       OrdererType: solo
       Addresses:
-        - orderer1-org0:7050
+        - orderer1-org1:7050
 
       BatchTimeout: 2s
 
@@ -118,33 +102,19 @@ Profiles:
         AbsoluteMaxBytes: 99 MB
         PreferredMaxBytes: 512 KB
 
-      Policies:
-        Readers:
-          Type: Signature
-          Rule: "OR('org0MSP.member', 'org1MSP.member')"
-        Writers:
-          Type: Signature
-          Rule: "OR('org0MSP.member', 'org1MSP.member')"
-        Admins:
-          Type: Signature
-          Rule: "AND('org0MSP.admin', 'org1MSP.admin')"
-        BlockValidation:
-          Type: Signature
-          Rule: "OR('org0MSP.member')"
-
-      Organizations:
-        - *org0
-
     Policies:
       Readers:
         Type: Signature
-        Rule: "OR('org0MSP.member', 'org1MSP.member')"
+        Rule: "OR('org1MSP.member', 'org1MSP.member')"
       Writers:
         Type: Signature
-        Rule: "OR('org0MSP.member', 'org1MSP.member')"
+        Rule: "OR('org1MSP.member', 'org1MSP.member')"
       Admins:
         Type: Signature
-        Rule: "AND('org0MSP.admin', 'org1MSP.admin')"
+        Rule: "AND('org1MSP.admin', 'org1MSP.admin')"
+      BlockValidation:
+        Type: Signature
+        Rule: "OR('org1MSP.member')"
 
     Consortiums:
       SampleConsortium:
