@@ -21,7 +21,7 @@ Organizations:
         Rule: "OR('org1MSP.member', 'org1MSP.member')"
       Admins:
         Type: Signature
-        Rule: "AND('org1MSP.admin', 'org1MSP.admin')"
+        Rule: "OR('org1MSP.admin')"
 
     AnchorPeers:
       - Host: peer1-org1
@@ -40,18 +40,18 @@ Channel: &ChannelDefaults
   # For Channel policies, their canonical path is
   #   /Channel/<PolicyName>
   Policies:
-    # Who may invoke the 'Deliver' API
     Readers:
-      Type: ImplicitMeta
-      Rule: "ANY Readers"
-    # Who may invoke the 'Broadcast' API
+      Type: Signature
+      Rule: "OR('org1MSP.member', 'org1MSP.member')"
     Writers:
-      Type: ImplicitMeta
-      Rule: "ANY Writers"
-    # By default, who may modify elements at this config level
+      Type: Signature
+      Rule: "OR('org1MSP.member', 'org1MSP.member')"
     Admins:
-      Type: ImplicitMeta
-      Rule: "MAJORITY Admins"
+      Type: Signature
+      Rule: "OR('org1MSP.admin')"
+    BlockValidation:
+      Type: Signature
+      Rule: "OR('org1MSP.admin')"
 
 
 ################################################################################
@@ -60,28 +60,39 @@ Channel: &ChannelDefaults
 #
 ################################################################################
 Application: &ApplicationDefaults
+  Policies:
+    Readers:
+      Type: Signature
+      Rule: "OR('org1MSP.admin', 'org1MSP.member')"
+    Writers:
+      Type: Signature
+      Rule: "OR('org1MSP.admin', 'org1MSP.member')"
+    Admins:
+      Type: Signature
+      Rule: "OR('org1MSP.admin', 'org1MSP.member')"
+  
   # Organizations is the list of orgs which are defined as participants on
   # the application side of the network
   Organizations:
   # Policies defines the set of policies at this level of the config tree
   # For Application policies, their canonical path is
   #   /Channel/Application/<PolicyName>
-  Policies: &ApplicationDefaultPolicies
-    LifecycleEndorsement:
-      Type: Signature
-      Rule: "OR('org1MSP.member')"
-    Endorsement:
-      Type: Signature
-      Rule: "OR('org1MSP.member')"
-    Readers:
-      Type: Signature
-      Rule: "OR('org1MSP.member')"
-    Writers:
-      Type: Signature
-      Rule: "OR('org1MSP.member')"
-    Admins:
-      Type: Signature
-      Rule: "OR('org1MSP.member')"
+    Policies: &ApplicationDefaultPolicies
+      LifecycleEndorsement:
+        Type: Signature
+        Rule: "OR('org1MSP.admin', 'org1MSP.member')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('org1MSP.admin', 'org1MSP.member')"
+      Readers:
+        Type: Signature
+        Rule: "OR('org1MSP.admin', 'org1MSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('org1MSP.admin', 'org1MSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('org1MSP.admin', 'org1MSP.member')"
 
 ################################################################################
 #
@@ -90,10 +101,21 @@ Application: &ApplicationDefaults
 ################################################################################
 Profiles:
   OrgsOrdererGenesis:
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('org1MSP.admin', 'org1MSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('org1MSP.admin', 'org1MSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('org1MSP.admin', 'org1MSP.member')"
+
     Orderer:
       OrdererType: solo
       Addresses:
-        - orderer1-org1:7050
+        - orderer1-org1:7052
 
       BatchTimeout: 2s
 
@@ -102,19 +124,19 @@ Profiles:
         AbsoluteMaxBytes: 99 MB
         PreferredMaxBytes: 512 KB
 
-    Policies:
-      Readers:
-        Type: Signature
-        Rule: "OR('org1MSP.member', 'org1MSP.member')"
-      Writers:
-        Type: Signature
-        Rule: "OR('org1MSP.member', 'org1MSP.member')"
-      Admins:
-        Type: Signature
-        Rule: "AND('org1MSP.admin', 'org1MSP.admin')"
-      BlockValidation:
-        Type: Signature
-        Rule: "OR('org1MSP.member')"
+      Policies:
+        Readers:
+          Type: Signature
+          Rule: "OR('org1MSP.admin', 'org1MSP.member')"
+        Writers:
+          Type: Signature
+          Rule: "OR('org1MSP.admin', 'org1MSP.member')"
+        Admins:
+          Type: Signature
+          Rule: "OR('org1MSP.admin')"
+        BlockValidation:
+          Type: Signature
+          Rule: "OR('org1MSP.admin')"
 
     Consortiums:
       SampleConsortium:
