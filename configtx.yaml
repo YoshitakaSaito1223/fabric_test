@@ -48,7 +48,7 @@ Channel: &ChannelDefaults
       Rule: "OR('org1MSP.member', 'org1MSP.member')"
     Admins:
       Type: Signature
-      Rule: "OR('org1MSP.admin')"
+      Rule: "OR('org1MSP.admin','org1MSP.peer')"
     BlockValidation:
       Type: Signature
       Rule: "OR('org1MSP.admin')"

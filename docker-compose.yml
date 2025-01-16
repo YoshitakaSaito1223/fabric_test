@@ -19,24 +19,6 @@ services:
     ports:
       - 7052:7052
 
-  # org0 CA Container
-  rca-org0:
-    container_name: rca-org0
-    image: hyperledger/fabric-ca:latest
-    command: /bin/bash -c 'fabric-ca-server start -d -b rca-org0-admin:rca-org0-adminpw --port 7053'
-    environment:
-      - FABRIC_CA_SERVER_HOME=/tmp/hyperledger/fabric-ca/crypto
-      - FABRIC_CA_SERVER_TLS_ENABLED=true
-      - FABRIC_CA_SERVER_CSR_CN=rca-org0
-      - FABRIC_CA_SERVER_CSR_HOSTS=0.0.0.0
-      - FABRIC_CA_SERVER_DEBUG=true
-    volumes:
-      - /tmp/hyperledger/org0/ca:/tmp/hyperledger/fabric-ca
-    networks:
-      - fabric-ca
-    ports:
-      - 7053:7053
-
   # org1 CA Container
   rca-org1:
     container_name: rca-org1
@@ -92,7 +74,7 @@ services:
       - ORDERER_HOME=/tmp/hyperledger/orderer
       - ORDERER_HOST=orderer1-org1
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
-      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISMETHOD=none
       - ORDERER_GENERAL_GENESISFILE=/tmp/hyperledger/org1/orderer/genesis.block
       - ORDERER_GENERAL_LOCALMSPID=org1MSP
       - ORDERER_GENERAL_LOCALMSPDIR=/tmp/hyperledger/org1/orderer/msp
@@ -106,6 +88,9 @@ services:
       - /tmp/hyperledger/org1/orderer:/tmp/hyperledger/org1/orderer/
     networks:
       - fabric-ca
+    ports:
+      - 7050:7050
+      - 9443:9443
 
   # CLI - org1 Container
   cli-org1:
