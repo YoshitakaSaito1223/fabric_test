@@ -1,0 +1,12 @@
+services:
+#cli base
+  cli-base:
+    image: hyperledger/fabric-tools:2.2
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - FABRIC_LOGGING_SPEC=INFO
+    working_dir: /path/to/crypto-config/peer
+    command: /bin/bash

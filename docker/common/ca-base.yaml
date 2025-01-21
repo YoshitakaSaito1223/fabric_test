@@ -1,0 +1,9 @@
+services:
+  #ca base
+  ca-base:
+    container_name: ca-base
+    image: hyperledger/fabric-ca:1.5
+    environment:
+      - FABLIC_CA_HOME=/var/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+    command: sh -c 'fabric-ca-server start -b admin:adminpw -d'

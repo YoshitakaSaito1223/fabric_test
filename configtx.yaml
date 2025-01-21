@@ -4,14 +4,14 @@ Organizations:
 
     ID: Org1MSP
 
-    MSPDir: ./organizarions/peerOrganizations/org1.example.com/msp
+    MSPDir: ./organizations/peerOrganizations/org1.example.com/msp
 
     Policies:
       Readers:
         Type: Signature
         Rule: "OR('Org1MSP.admin' , 'Org1MSP.peer' , 'Org1MSP.client')"
       Writers:
-        Type: Siganture
+        Type: Signature
         Rule: "OR('Org1MSP.admin' , 'Org1MSP.client')"
       Admins:
         Type: Signature
@@ -42,16 +42,19 @@ Organizations:
         Type: Signature
         Rule: "OR('OrdererMSP.admin')"
 
+
 Capabilities:
   Channel: &ChannelCapabilities
     V2_0: true
+    # V1_4: true
   
   Orderer: &OrdererCapabilities
     V2_0: true
+    # V1_4: true
 
   Application: &ApplicationCapabilities
     V2_0: true
-    V1_4: true 
+    # V1_4: true 
 
 Application: &ApplicationDefaults
   Policies:
@@ -83,31 +86,34 @@ Orderer: &OrdererDefaults
   EtcdRaft:
     Consenters:
       - Host: orderer.orderer.example.com
-      Port: 14132
-      ClientTLSCert: ./organizations/ordererOrganizations/orderer.example.com/orderers/orderer.example.com/tls/server.crt
-      ServerTLSCert: ./organizations/ordererOrganizations/orderer.example.com/orderers/orderer.example.com/tls/server.crt
+        Port: 14132
+        ClientTLSCert: ./organizations/ordererOrganizations/orderer.example.com/orderers/orderer.orderer.example.com/tls/server.crt
+        ServerTLSCert: ./organizations/ordererOrganizations/orderer.example.com/orderers/orderer.orderer.example.com/tls/server.crt
 
-    BatchTimeout: 999ms
+  BatchTimeout: 999ms
 
-    BatchSize:
-      MaxMessageCount: 1000
-      AbsoluteMaxBytes: 99MB
-      PerferredMaxBytes: 10MB
+  BatchSize:
+    MaxMessageCount: 1000
+    AbsoluteMaxBytes: 99MB
+    PreferredMaxBytes: 10MB
 
-    Policies:
-      Readers:
-        Type: ImplicitMeta
-        Rule: "ANY Readers"
-      Writers:
-        Type: ImplicitMeta
-        Rule: "ANY Writers"
-      Admins:
-        Type: ImplicitMeta
-        Rule: "MAJORITY Admins"
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
 
-      BlockValidation:
-        Type: ImplicitMeta
-        Rule: "ANY Writers"
+    BlockValidation:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+
+  Capabilities:
+    <<: *OrdererCapabilities
 
 Channel: &ChannelDefaults
   Policies:
@@ -124,3 +130,30 @@ Channel: &ChannelDefaults
   Capabilities:
     <<: *ChannelCapabilities
 
+Profiles:
+  mainchannel:
+    <<: *ChannelDefaults
+    Orderer:
+      <<: *OrdererDefaults
+      Organizations:
+        - *OrdererOrg
+    Consortium: SampleConsortium
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *Org1MSP
+    Capabilities:
+      <<: *ChannelCapabilities
+
+  OrdererGenesis:
+    <<: *ChannelDefaults
+    Orderer:
+      <<: *OrdererDefaults
+      Organizations:
+        - *OrdererOrg
+    Consortiums:
+      SampleConsortium:
+        Organizations:
+          - *Org1MSP
+    Capabilities:
+      <<: *ChannelCapabilities

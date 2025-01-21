@@ -17,6 +17,6 @@ OrdererOrgs:
 
     Specs:
       - Hostname: orderer
-      SANS:
-        - orderer.orderer.example.com
+        SANS:
+          - orderer.orderer.example.com
         
