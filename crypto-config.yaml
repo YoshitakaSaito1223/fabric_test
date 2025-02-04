@@ -6,6 +6,8 @@ PeerOrgs:
       Count: 1
       SANS:
         - peer1.org1.example.com
+        - localhost
+        - 127.0.0.1
 
     Users:
       Count: 1
@@ -19,4 +21,6 @@ OrdererOrgs:
       - Hostname: orderer
         SANS:
           - orderer.orderer.example.com
+          - localhost
+          - 127.0.0.1
         
