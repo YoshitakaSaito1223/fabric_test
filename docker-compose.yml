@@ -106,6 +106,8 @@ services:
       - /tmp/hyperledger/org0/orderer:/tmp/hyperledger/org0/orderer/
     networks:
       - fabric-ca
+    ports:
+      - 7050:7050
 
   # CLI - org1 Container
   cli-org1:
