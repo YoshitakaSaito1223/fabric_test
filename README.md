@@ -94,6 +94,18 @@ mkdir ${PWD}/organizations/org1/peer1/msp/admincerts
 cp ${PWD}/organizations/org1/admin/msp/signcerts/cert.pem ${PWD}/organizations/org1/peer1/msp/admincerts/org1-admin-cert.pem
 ```
 
+### 秘密鍵の名前変更
+```sh
+mv organizations/org1/peer1/tls-msp/keystore/* organizations/org1/peer1/tls-msp/keystore/key.pem
+```
+
+### core configファイルのコピー
+
+```sh
+cp core.yaml ./organizations/org1/peer1/core.yaml
+```
+
+
 ### Peer1の起動
 ```sh
 docker compose up peer1_org1
@@ -144,6 +156,11 @@ cp ${PWD}/organizations/ordererOrg/admin/msp/signcerts/cert.pem ${PWD}/organizat
 
 ```sh
 configtxgen -profile ChannelUsingRaft -outputBlock ${PWD}/organizations/ordererOrg/orderer/genesis.block -channelID mychannel
+```
+
+### 秘密鍵名変更
+```sh
+mv organizations/ordererOrg/orderer/tls-msp/keystore/* organizations/ordererOrg/orderer/tls-msp/keystore/key.pem
 ```
 
 ### orderer1_ordererOrgの起動
