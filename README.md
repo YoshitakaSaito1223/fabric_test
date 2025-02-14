@@ -176,7 +176,7 @@ export OSN_TLS_CA_ROOT_CERT=/home/yoshitaka/fabric/git/organizations/tlsca/ca-ce
 export ORDERER_ADMIN_TLS_SIGN_CERT=./organizations/ordererOrg/orderer/tls-msp/signcerts/cert.pem
 export ORDERER_ADMIN_TLS_PRIVATE_KEY=./organizations/ordererOrg/orderer/tls-msp/keystore/key.pem
 
-osnadmin channel join --channelID mychannel  --config-block ./organizations/ordererOrg/orderer/genesis.block -o localhost:7053 --client-cert $ADMIN_TLS_SIGN_CERT --client-key $ADMIN_TLS_PRIVATE_KEY --ca-file $OSN_TLS_CA_ROOT_CERT 
+osnadmin channel join --channelID mychannel  --config-block ./organizations/ordererOrg/orderer/genesis.block -o localhost:7053 --client-cert $ORDERER_ADMIN_TLS_SIGN_CERT --client-key $ORDERER_ADMIN_TLS_PRIVATE_KEY --ca-file $OSN_TLS_CA_ROOT_CERT 
 ```
 
 
